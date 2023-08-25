@@ -5,6 +5,56 @@
 }
 
 /* main */
+.carousel{
+  height: 400px;
+}
+.carousel-inner{
+  height: 400px;  
+}
+.carousel-item{
+  height: 400px;  
+}
+.carousel-control-prev,
+.carousel-control-prev-icon,
+.carousel-control-next,
+.carousel-control-next-icon{
+  height: 400px; 
+}
+.carousel-item>img{
+  object-fit: cover;
+  height: 100%;
+}
+#div-1{
+  width: 100%;
+}
+#div-2{
+  width: 100%;
+}
+.input-group-text{
+  background-color: white;
+  border: none;
+}
 
 
 /* footer */
+
+@media only screen and (min-width: 768px){
+  #div-1{
+    width: 50%;
+  }
+  #div-2{
+    width: 40%;
+  }
+  .categorias{
+    flex-wrap: nowrap;
+  }
+}
+
+@media only screen and (min-width: 1024px){
+  #div-1{
+    width: 50%;
+  }
+  #div-2{
+    width: 40%;
+  }  
+}
