@@ -35,3 +35,22 @@ for (let evento of data.events) {
 };
 
 cardsHome.innerHTML = templateCards;
+
+// checkbox categorias
+
+const checkboxCategorias = document.getElementById('checkbox-categorias');
+
+let templateCategorias = '';
+
+let listadoDeCategorias = [];
+
+for (let evento of data.events) {
+  if(!listadoDeCategorias.includes(evento.category)){
+    listadoDeCategorias.push(evento.category)    
+  }  
+};
+
+for (let categoria of listadoDeCategorias) {
+  templateCategorias += `<label><input type="checkbox" id="cbox${categoria.indexOf}" name="cbox" value="${categoria}"/> ${categoria}</label>`
+}
+checkboxCategorias.innerHTML = templateCategorias;

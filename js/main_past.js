@@ -1,8 +1,6 @@
 // carousel
 const carouselPast = document.getElementById('carousel-past');
-
 let templateCarousel = '';
-
 for (let evento of data.events) {
   if(data.currentDate > evento.date){
     templateCarousel += `
@@ -11,15 +9,12 @@ for (let evento of data.events) {
     </div>`
   }  
 };
-
 carouselPast.innerHTML = templateCarousel;
 
 
 // cards
 const cardsPast = document.getElementById('card-section-past');
-
 let templateCards = '';
-
 for (let evento of data.events) {
   if(data.currentDate > evento.date){
     templateCards += `<div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
@@ -35,5 +30,19 @@ for (let evento of data.events) {
     </div>`
   }  
 };
-
 cardsPast.innerHTML = templateCards;
+
+
+// checkbox categorias
+const checkboxCategorias = document.getElementById('checkbox-categorias');
+let templateCategorias = '';
+let listadoDeCategorias = [];
+for (let evento of data.events) {
+  if(!listadoDeCategorias.includes(evento.category)){
+    listadoDeCategorias.push(evento.category)    
+  }  
+};
+for (let categoria of listadoDeCategorias) {
+  templateCategorias += `<label><input type="checkbox" id="cbox${categoria.indexOf}" name="cbox" value="${categoria}"/> ${categoria}</label>`
+}
+checkboxCategorias.innerHTML = templateCategorias;
