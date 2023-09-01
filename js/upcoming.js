@@ -1,14 +1,26 @@
 // carousel
 const carouselUpcoming = document.getElementById('carousel-upcoming');
 let templateCarousel = '';
+
+let eventosFuturos = [];
 for (let evento of data.events) {
   if(data.currentDate < evento.date){
-    templateCarousel += `
-    <div class="carousel-item active">
-      <img src="${evento.image}" class="d-block w-100" alt="${evento.name}">
-    </div>`
+    eventosFuturos.push(evento);
   }  
 };
+for (let i = 0; i < eventosFuturos.length; i++) {  
+  if(i === 0){
+    templateCarousel += `
+    <div class="carousel-item active">
+      <img src="${eventosFuturos[i].image}" class="d-block w-100" alt="${eventosFuturos[i].name}">
+    </div>`
+  }else{
+    templateCarousel += `
+    <div class="carousel-item">
+      <img src="${eventosFuturos[i].image}" class="d-block w-100" alt="${eventosFuturos[i].name}">
+    </div>`
+  }    
+}
 carouselUpcoming.innerHTML = templateCarousel;
 
 

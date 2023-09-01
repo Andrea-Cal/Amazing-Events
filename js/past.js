@@ -1,15 +1,28 @@
 // carousel
 const carouselPast = document.getElementById('carousel-past');
 let templateCarousel = '';
+
+let eventosPasados = [];
 for (let evento of data.events) {
   if(data.currentDate > evento.date){
-    templateCarousel += `
-    <div class="carousel-item active">
-      <img src="${evento.image}" class="d-block w-100" alt="${evento.name}">
-    </div>`
+    eventosPasados.push(evento);
   }  
 };
+for (let i = 0; i < eventosPasados.length; i++) {  
+  if(i === 0){
+    templateCarousel += `
+    <div class="carousel-item active">
+      <img src="${eventosPasados[i].image}" class="d-block w-100" alt="${eventosPasados[i].name}">
+    </div>`
+  }else{
+    templateCarousel += `
+    <div class="carousel-item">
+      <img src="${eventosPasados[i].image}" class="d-block w-100" alt="${eventosPasados[i].name}">
+    </div>`
+  }    
+}
 carouselPast.innerHTML = templateCarousel;
+
 
 
 // cards

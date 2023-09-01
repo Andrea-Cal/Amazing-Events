@@ -2,14 +2,19 @@
 const carouselHome = document.getElementById('carousel-home');
 let templateCarousel = '';
 
-for (let evento of data.events) {
-  if(data.currentDate < evento.date){
+for (let i = 0; i < data.events.length; i++) {
+  if(i === 0){
     templateCarousel += `
     <div class="carousel-item active">
-      <img src="${evento.image}" class="d-block w-100" alt="${evento.name}">
+      <img src="${data.events[i].image}" class="d-block w-100" alt="${data.events[i].name}">
     </div>`
-  }  
-};
+  }else{
+    templateCarousel += `
+    <div class="carousel-item">
+      <img src="${data.events[i].image}" class="d-block w-100" alt="${data.events[i].name}">
+    </div>`
+  }    
+}
 carouselHome.innerHTML = templateCarousel;
 
 
