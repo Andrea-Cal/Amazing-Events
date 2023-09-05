@@ -70,10 +70,13 @@ main{
   height: 24px;
   position: absolute;
   top: 25px;
-  right: 25px;    
+  right: 25px;   
 }
 .icon:hover{
   fill: rgb(246, 77, 77);
+}
+.heart-fill{
+  fill: rgb(232, 39, 39);
 }
 
 

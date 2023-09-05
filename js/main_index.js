@@ -18,41 +18,67 @@ for (let i = 0; i < data.events.length; i++) {
 carouselHome.innerHTML = templateCarousel;
 
 
-// cards
+// contenedor cards
 const cardsHome = document.getElementById('card-section-home');
 let templateCards = '';
 
-for (let evento of data.events) {
-  templateCards += `<div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
-  <img src="${evento.image}" class="card-img-top" alt="${evento.name}">
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-    <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-  </svg>
-  <div class="card-body d-flex flex-column justify-content-between">
-    <h5 class="card-title">${evento.name}</h5>
-    <p class="card-text">${evento.description}</p>
-    <div class="d-flex justify-content-between align-items-center">
-      <h5 class="card-title mb-0">$ ${evento.price}</h5>
-      <a href="#" class="btn btn-primary">Details</a>
-    </div>          
-  </div>
-</div>`
-};
-
-cardsHome.innerHTML = templateCards;
-
 // checkbox categorias
 const checkboxCategorias = document.getElementById('checkbox-categorias');
-let templateCategorias = '';
-let listadoDeCategorias = [];
 
-for (let evento of data.events) {
-  if(!listadoDeCategorias.includes(evento.category)){
-    listadoDeCategorias.push(evento.category)    
-  }  
-};
-for (let categoria of listadoDeCategorias) {
-  templateCategorias += `<label><input type="checkbox" id="cbox${categoria.indexOf}" name="cbox" value="${categoria}"/> ${categoria}</label>`
+// filtra las categorias del aray original sin repetir
+const categoriasSinRepetir = [ ...new Set(data.events.map(objeto => objeto.category))];
+
+// funcion que crea la estructura HTML de los checkbox
+function crearEstructuraChecks(categoria){
+  let templateCheckBox = "";
+  templateCheckBox = `<label><input type="checkbox" id="${categoria}" name="cbox" value="${categoria}"/> ${categoria}</label>`;  
+  return templateCheckBox;
 }
-checkboxCategorias.innerHTML = templateCategorias;
+
+// funcion que imprime las categorias
+function imprimirCategoriasEnHtml(arrayDeCategorias, elementoHtml){
+  let estructura = "";  
+  arrayDeCategorias.forEach(categoria => {
+    estructura += crearEstructuraChecks(categoria)
+  });
+  elementoHtml.innerHTML = estructura;
+}
+imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
+
+// escuchador de eventos de los checkbox
+checkboxCategorias.addEventListener("change", (e)=> { 
+  let nodeList = document.querySelectorAll("input[type='checkbox']:checked");  
+  let arrayValues = Array.from(nodeList).map(input => input.value);
+  let eventosFiltrados = data.events.filter(objetoEvento => arrayValues.includes(objetoEvento.category));
+  imprimirCardsEnHtml(eventosFiltrados, cardsHome);  
+  if(eventosFiltrados.length == 0){
+    imprimirCardsEnHtml(data.events, cardsHome);
+  }
+})
+
+// funcion que crea la estructura HTML de las cards
+function crearEstructuraCard(objetoEvento){
+  let template = "";
+  template = `<div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
+    <img src="${objetoEvento.image}" class="card-img-top" alt="${objetoEvento.name}">  
+    <div class="card-body d-flex flex-column justify-content-between">
+      <h5 class="card-title">${objetoEvento.name}</h5>
+      <p class="card-text">${objetoEvento.description}</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">$ ${objetoEvento.price}</h5>
+        <a href="#" class="btn btn-primary">Details</a>
+      </div>          
+    </div>
+  </div>`;
+  return template;
+}
+
+// funcion que imprime las cards
+function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
+  let estructura = "";
+  arrayDeEventos.forEach (objetoEvento => {
+    estructura += crearEstructuraCard(objetoEvento)
+  })
+  elementoHtml.innerHTML = estructura;
+}
+imprimirCardsEnHtml(data.events , cardsHome);
