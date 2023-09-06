@@ -20,7 +20,7 @@ function crearEstructuraDetail(objetoEvento){
         <p class="card-text">Date: ${objetoEvento.date}</p>
         <h5 class="card-title mb-3">$ ${objetoEvento.price}</h5>
         <p class="card-text">Place: ${objetoEvento.place}</small></p>
-        <a href="./index.html" class="btn btn-primary">Go back</a>
+        <a href="./index.html" class="btn btn-primary">Home</a>
         </div>
     </div>
   </div>`

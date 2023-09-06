@@ -1,7 +1,12 @@
-// carousel
+// contenedor carousel
 const carouselHome = document.getElementById('carousel-home');
-let templateCarousel = '';
+// contenedor cards
+const cardsHome = document.getElementById('card-section-home');
+// contenedor checkbox categorias
+const checkboxCategorias = document.getElementById('checkbox-categorias');
 
+
+let templateCarousel = '';
 for (let i = 0; i < data.events.length; i++) {
   if(i === 0){
     templateCarousel += `
@@ -18,14 +23,7 @@ for (let i = 0; i < data.events.length; i++) {
 carouselHome.innerHTML = templateCarousel;
 
 
-// contenedor cards
-const cardsHome = document.getElementById('card-section-home');
-let templateCards = '';
-
-// checkbox categorias
-const checkboxCategorias = document.getElementById('checkbox-categorias');
-
-// filtra las categorias del aray original sin repetir
+// filtra las categorias del array original sin repetir
 const categoriasSinRepetir = [ ...new Set(data.events.map(objeto => objeto.category))];
 
 // funcion que crea la estructura HTML de los checkbox
@@ -49,19 +47,15 @@ imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
 checkboxCategorias.addEventListener("change", (e)=> { 
   let nodeList = document.querySelectorAll("input[type='checkbox']:checked");  
   let arrayValues = Array.from(nodeList).map(input => input.value);
-  let eventosFiltrados = data.events.filter(objetoEvento => arrayValues.includes(objetoEvento.category));
-  /* imprimirCardsEnHtml(eventosFiltrados, cardsHome);  
-  if(eventosFiltrados.length == 0){
-    imprimirCardsEnHtml(data.events, cardsHome);
-  } */
-  eventosFiltrados.length > 0 ? imprimirCardsEnHtml(eventosFiltrados, cardsHome) : imprimirCardsEnHtml(data.events, cardsHome);
-  console.log(eventosFiltrados);
-})
+  let eventosFiltrados = data.events.filter(objetoEvento => arrayValues.includes(objetoEvento.category)); 
+  eventosFiltrados.length > 0 ? imprimirCardsEnHtml(eventosFiltrados, cardsHome) : imprimirCardsEnHtml(data.events, cardsHome);  
+});
 
 // funcion que crea la estructura HTML de las cards
 function crearEstructuraCard(objetoEvento){
   let template = "";
-  template = `<div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
+  template = `
+  <div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
     <img src="${objetoEvento.image}" class="card-img-top" alt="${objetoEvento.name}">  
     <div class="card-body d-flex flex-column justify-content-between">
       <h5 class="card-title">${objetoEvento.name}</h5>
@@ -83,4 +77,4 @@ function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
   })
   elementoHtml.innerHTML = estructura;
 }
-imprimirCardsEnHtml(data.events , cardsHome);
+imprimirCardsEnHtml(data.events, cardsHome);
