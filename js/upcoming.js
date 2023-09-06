@@ -54,10 +54,8 @@ checkboxCategorias.addEventListener("change", (e)=> {
   eventosFiltrados.length > 0 ? imprimirCardsEnHtml(eventosFiltrados, cardsUpcoming) : imprimirCardsEnHtml(arrayDeEventosFuturos, cardsUpcoming);  
 });
 
-
-
 // funcion que crea la estructura HTML de las cards
-function crearEstructuraCardUpcoming(objetoEvento){
+function crearEstructuraCard(objetoEvento){
   let template = '';  
   template += `
   <div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
@@ -78,7 +76,7 @@ function crearEstructuraCardUpcoming(objetoEvento){
 function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
   let estructura = "";
   arrayDeEventos.forEach (objetoEvento => {
-    estructura += crearEstructuraCardUpcoming(objetoEvento)
+    estructura += crearEstructuraCard(objetoEvento)
   })
   elementoHtml.innerHTML = estructura;
 }
