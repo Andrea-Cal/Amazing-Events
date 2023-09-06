@@ -4,11 +4,6 @@ const params = new URLSearchParams(queryString);
 const idBuscado = params.get("id");
 
 const eventoAMostrar = data.events.find(objetoEvento => objetoEvento._id == idBuscado);
-/* function buscarEvento(arrayDeEventos){
-  const eventoAMostrar = arrayDeEventos.find(objetoEvento => objetoEvento._id == idBuscado);
-  return eventoAMostrar;
-} */
-console.log(eventoAMostrar);
 
 function crearEstructuraDetail(objetoEvento){
   let template = "";
@@ -19,12 +14,12 @@ function crearEstructuraDetail(objetoEvento){
     </div>
     <div class="col-md-6">
       <div class="card-body">
-        <h5 class="card-title text-center">${objetoEvento.name}</h5>
+        <h5 class="card-title text-center mb-3">${objetoEvento.name}</h5>
         <p class="card-text">${objetoEvento.description}</p>
-        <p class="card-text">${objetoEvento.category}</p>
-        <p class="card-text">${objetoEvento.date}</p>
-        <h5 class="card-title mb-0">$ ${objetoEvento.price}</h5>
-        <p class="card-text"><small class="text-body-secondary">${objetoEvento.place}</small></p>
+        <p class="card-text"> Category: ${objetoEvento.category}</p>
+        <p class="card-text">Date: ${objetoEvento.date}</p>
+        <h5 class="card-title mb-3">$ ${objetoEvento.price}</h5>
+        <p class="card-text">Place: ${objetoEvento.place}</small></p>
         <a href="./index.html" class="btn btn-primary">Go back</a>
         </div>
     </div>
