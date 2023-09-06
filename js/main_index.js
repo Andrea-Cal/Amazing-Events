@@ -50,10 +50,12 @@ checkboxCategorias.addEventListener("change", (e)=> {
   let nodeList = document.querySelectorAll("input[type='checkbox']:checked");  
   let arrayValues = Array.from(nodeList).map(input => input.value);
   let eventosFiltrados = data.events.filter(objetoEvento => arrayValues.includes(objetoEvento.category));
-  imprimirCardsEnHtml(eventosFiltrados, cardsHome);  
+  /* imprimirCardsEnHtml(eventosFiltrados, cardsHome);  
   if(eventosFiltrados.length == 0){
     imprimirCardsEnHtml(data.events, cardsHome);
-  }
+  } */
+  eventosFiltrados.length > 0 ? imprimirCardsEnHtml(eventosFiltrados, cardsHome) : imprimirCardsEnHtml(data.events, cardsHome);
+  console.log(eventosFiltrados);
 })
 
 // funcion que crea la estructura HTML de las cards
@@ -66,7 +68,7 @@ function crearEstructuraCard(objetoEvento){
       <p class="card-text">${objetoEvento.description}</p>
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">$ ${objetoEvento.price}</h5>
-        <a href="#" class="btn btn-primary">Details</a>
+        <a href="./details.html?id=${objetoEvento._id}" class="btn btn-primary">Details</a>
       </div>          
     </div>
   </div>`;
