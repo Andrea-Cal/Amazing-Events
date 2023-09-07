@@ -9,7 +9,7 @@ const barraDeBusqueda = document.querySelector('input[type=search]');
 // boton del buscador
 const botonBusqueda = document.querySelector('button[type=submit]');
 
-
+// mostrar imagenes de eventos en el carousel
 let templateCarousel = '';
 for (let i = 0; i < data.events.length; i++) {
   if(i === 0){
@@ -72,7 +72,7 @@ botonBusqueda.addEventListener("click", (e)=> {
   e.preventDefault();
 });
 
-// Funcion normalizar imput
+// Funcion normalizar input
 function capitalizarPrimeraLetra(string) {
   return string.charAt(0).toUpperCase() + string.toLowerCase().slice(1);
 }
@@ -119,8 +119,7 @@ function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
     elementoHtml.innerHTML = estructura;
   }else{
     imprimirMensajeBusquedaNoCoincide(elementoHtml);
-  }
-  
+  }  
 }
 imprimirCardsEnHtml(data.events, cardsHome);
 
