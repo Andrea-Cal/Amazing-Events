@@ -49,8 +49,8 @@ imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
 checkboxCategorias.addEventListener("change", (e)=> { 
   let nodeList = document.querySelectorAll("input[type='checkbox']:checked");  
   let arrayValues = Array.from(nodeList).map(input => input.value);
-  let eventosFiltrados = arrayDeEventosPasados.filter(objetoEvento => arrayValues.includes(objetoEvento.category));  
-  eventosFiltrados.length > 0 ? imprimirCardsEnHtml(eventosFiltrados, cardsPast) : imprimirCardsEnHtml(arrayDeEventosPasados, cardsPast);  
+  let eventosFiltradosCheck = arrayDeEventosPasados.filter(objetoEvento => arrayValues.includes(objetoEvento.category));  
+  eventosFiltradosCheck.length > 0 ? imprimirCardsEnHtml(eventosFiltradosCheck, cardsPast) : imprimirCardsEnHtml(arrayDeEventosPasados, cardsPast);  
 });
 
 // funcion que crea la estructura HTML de las cards

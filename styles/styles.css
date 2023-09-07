@@ -60,6 +60,9 @@ main{
 #tablas{
   height: 800px;
 }
+#mensaje-error{
+  background-color: rgb(255, 167, 126);
+}
 
 /* estilos de prueba para corazon cards */
 #card-cont{
