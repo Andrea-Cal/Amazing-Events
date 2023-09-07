@@ -140,7 +140,7 @@ function crearEstructuraMensaje(){
       <div class="card-body">
         <h5 class="card-title">Ups!</h5>
         <p class="card-text">We did not find events that match your search. Please, try again.</p>
-        <a href="./upcoming_events.html" class="btn btn-primary">Go back</a>
+        <a href="./past_events.html" class="btn btn-primary">Go back</a>
       </div>  
     </div>`;
   return template;
