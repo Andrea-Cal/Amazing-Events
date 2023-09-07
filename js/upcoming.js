@@ -7,7 +7,7 @@ const checkboxCategorias = document.getElementById('checkbox-categorias');
 // input del buscador
 const barraDeBusqueda = document.querySelector('input[type=search]');
 // boton del buscador
-const botonBusqueda = document.querySelector('button[type=submit]');
+/* const botonBusqueda = document.querySelector('button[type=submit]'); */
 
 // filtramos los eventos futuros
 let arrayDeEventosFuturos = data.events.filter(objetoEvento => data.currentDate <= objetoEvento.date);
@@ -69,10 +69,16 @@ function filtroCheckbox(arrayDeEventos){
 }
 
 // escuchador de eventos del boton de busqueda
-botonBusqueda.addEventListener("click", (e)=> {
+/* botonBusqueda.addEventListener("click", (e)=> {
   const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);
   e.preventDefault();
+}); */
+
+// escuchador de eventos del input
+barraDeBusqueda.addEventListener("keyup", ()=> {
+  const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);
+  imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);
 });
 
 // Funcion normalizar input
