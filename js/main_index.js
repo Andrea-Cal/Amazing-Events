@@ -1,3 +1,28 @@
+fetch("https://mindhub-xj03.onrender.com/api/amazing")
+.then( (response) => response.json())
+.then (data => {  
+  let objetoData = data;
+  let arrayEventos = data.events;
+  // filtra las categorias del array original sin repetir
+  const categoriasSinRepetir = [ ...new Set(arrayEventos.map(objeto => objeto.category))];
+  // llamado a la funcion que imprime las categorias
+  imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias); 
+  // escuchador de eventos de los checkbox
+  checkboxCategorias.addEventListener("change", (e)=> {   
+    const returnFiltrosCombinados = filtroCombinado(arrayEventos, barraDeBusqueda);  
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
+  });
+  // escuchador de eventos del input
+  barraDeBusqueda.addEventListener("keyup", ()=> {
+    const returnFiltrosCombinados = filtroCombinado(arrayEventos, barraDeBusqueda);
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
+  });
+  // llamado a la funcion que imprime las cards
+  imprimirCardsEnHtml(arrayEventos, cardsHome);  
+})
+.catch( error => { console.log(error);})
+
+
 // contenedor carousel
 const carouselHome = document.getElementById('carousel-home');
 // contenedor cards
@@ -26,10 +51,6 @@ for (let i = 0; i < data.events.length; i++) {
 }
 carouselHome.innerHTML = templateCarousel;
 
-
-// filtra las categorias del array original sin repetir
-const categoriasSinRepetir = [ ...new Set(data.events.map(objeto => objeto.category))];
-
 // funcion que crea la estructura HTML de los checkbox
 function crearEstructuraChecks(categoria){
   let templateCheckBox = "";
@@ -45,13 +66,6 @@ function imprimirCategoriasEnHtml(arrayDeCategorias, elementoHtml){
   });
   elementoHtml.innerHTML = estructura;
 }
-imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
-
-// escuchador de eventos de los checkbox
-checkboxCategorias.addEventListener("change", (e)=> {   
-  const returnFiltrosCombinados = filtroCombinado(data.events, barraDeBusqueda);  
-  imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
-});
 
 // funcion de filtro por checkbox
 function filtroCheckbox(arrayDeEventos){
@@ -71,12 +85,6 @@ function filtroCheckbox(arrayDeEventos){
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
   e.preventDefault();
 }); */
-
-// escuchador de eventos del input
-barraDeBusqueda.addEventListener("keyup", ()=> {
-  const returnFiltrosCombinados = filtroCombinado(data.events, barraDeBusqueda);
-  imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
-});
 
 // Funcion normalizar input
 function capitalizarPrimeraLetra(string) {
@@ -127,7 +135,6 @@ function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
     imprimirMensajeBusquedaNoCoincide(elementoHtml);
   }  
 }
-imprimirCardsEnHtml(data.events, cardsHome);
 
 function crearEstructuraMensaje(){
   let template = `

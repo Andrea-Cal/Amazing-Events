@@ -1,9 +1,20 @@
+fetch("https://mindhub-xj03.onrender.com/api/amazing")
+.then( (response) => response.json())
+.then (data => {  
+  let objetoData = data;
+  let arrayEventos = data.events;
+  const eventoAMostrar = arrayEventos.find(objetoEvento => objetoEvento._id == idBuscado);
+  imprimirDetail(eventoAMostrar, contenedorDetails);
+})
+.catch( error => { console.log(error);})
+
+
 const contenedorDetails = document.getElementById('contenedor-details');
 const queryString = location.search;
 const params = new URLSearchParams(queryString);
 const idBuscado = params.get("id");
 
-const eventoAMostrar = data.events.find(objetoEvento => objetoEvento._id == idBuscado);
+/* const eventoAMostrar = data.events.find(objetoEvento => objetoEvento._id == idBuscado); */
 
 function crearEstructuraDetail(objetoEvento){
   let template = "";
@@ -31,4 +42,4 @@ function imprimirDetail(objetoEvento, elementoHtml){
   let estructura = crearEstructuraDetail(objetoEvento);
   elementoHtml.innerHTML = estructura;
 }
-imprimirDetail(eventoAMostrar, contenedorDetails);
+/* imprimirDetail(eventoAMostrar, contenedorDetails); */
