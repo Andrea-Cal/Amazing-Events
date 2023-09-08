@@ -32,8 +32,6 @@ const cardsHome = document.getElementById('card-section-home');
 const checkboxCategorias = document.getElementById('checkbox-categorias');
 // input del buscador
 const barraDeBusqueda = document.querySelector('input[type=search]');
-// boton del buscador
-/* const botonBusqueda = document.querySelector('button[type=submit]'); */
 
 // mostrar imagenes de eventos en el carousel
 function mostrarImagenesEnCarousel(array, elementoHtml){
@@ -81,13 +79,6 @@ function filtroCheckbox(arrayDeEventos){
     return arrayDeEventos;
   }    
 }
-
-// escuchador de eventos del boton de busqueda
-/* botonBusqueda.addEventListener("click", (e)=> {
-  const returnFiltrosCombinados = filtroCombinado(data.events, barraDeBusqueda);
-  imprimirCardsEnHtml(returnFiltrosCombinados, cardsHome);
-  e.preventDefault();
-}); */
 
 // Funcion normalizar input
 function capitalizarPrimeraLetra(string) {
