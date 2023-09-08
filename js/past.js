@@ -1,3 +1,31 @@
+fetch("https://mindhub-xj03.onrender.com/api/amazing")
+.then( (response) => response.json())
+.then (data => {  
+  let objetoData = data;
+  let arrayEventos = data.events;
+  // filtramos los eventos pasados
+  let arrayDeEventosPasados = arrayEventos.filter(objetoEvento => objetoData.currentDate > objetoEvento.date); 
+  // mostrar imagenes de eventos futuros en el carousel
+  mostrarImagenesEnCarousel(arrayDeEventosPasados, carouselPast);
+  // escuchador de eventos del input
+  barraDeBusqueda.addEventListener("keyup", ()=> {
+    const returnFiltrosCombinados = filtroCombinado(arrayDeEventosPasados, barraDeBusqueda);
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsPast);
+  });
+  // filtra las categorias del array de eventos pasados sin repetir
+  const categoriasSinRepetir = [ ...new Set(arrayDeEventosPasados.map(objeto => objeto.category))];
+  // llamado a la funcion que imprime las categorias
+  imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
+  // escuchador de eventos de los checkbox
+  checkboxCategorias.addEventListener("change", (e)=> {   
+    const returnFiltrosCombinados = filtroCombinado(arrayDeEventosPasados, barraDeBusqueda);  
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsPast);  
+  });
+  // llamado a la funcion que imprime las cards
+  imprimirCardsEnHtml(arrayDeEventosPasados, cardsPast);
+})
+.catch( error => { console.log(error);})
+
 // contenedor carousel
 const carouselPast = document.getElementById('carousel-past');
 // contenedor cards
@@ -10,27 +38,30 @@ const barraDeBusqueda = document.querySelector('input[type=search]');
 /* const botonBusqueda = document.querySelector('button[type=submit]'); */
 
 // filtramos los eventos pasados
-let arrayDeEventosPasados = data.events.filter(objetoEvento => data.currentDate > objetoEvento.date);
+/* let arrayDeEventosPasados = data.events.filter(objetoEvento => data.currentDate > objetoEvento.date); */
 
 // mostrar imagenes de eventos pasados en el carousel
+function mostrarImagenesEnCarousel(array, elementoHtml){
 let templateCarousel = '';
-for (let i = 0; i < arrayDeEventosPasados.length; i++) {  
+for (let i = 0; i < array.length; i++) {  
   if(i === 0){
     templateCarousel += `
     <div class="carousel-item active">
-      <img src="${arrayDeEventosPasados[i].image}" class="d-block w-100" alt="${arrayDeEventosPasados[i].name}">
+      <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
     </div>`
   }else{
     templateCarousel += `
     <div class="carousel-item">
-      <img src="${arrayDeEventosPasados[i].image}" class="d-block w-100" alt="${arrayDeEventosPasados[i].name}">
+      <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
     </div>`
   }    
 }
-carouselPast.innerHTML = templateCarousel;
+elementoHtml.innerHTML = templateCarousel;
+}
+
 
 // filtra las categorias del array de eventos pasados sin repetir
-const categoriasSinRepetir = [ ...new Set(arrayDeEventosPasados.map(objeto => objeto.category))];
+/* const categoriasSinRepetir = [ ...new Set(arrayDeEventosPasados.map(objeto => objeto.category))]; */
 
 // funcion que crea la estructura HTML de los checkbox
 function crearEstructuraChecks(categoria){
@@ -47,13 +78,13 @@ function imprimirCategoriasEnHtml(arrayDeCategorias, elementoHtml){
   });
   elementoHtml.innerHTML = estructura;
 }
-imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
+/* imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias); */
 
 // escuchador de eventos de los checkbox
-checkboxCategorias.addEventListener("change", (e)=> {   
+/* checkboxCategorias.addEventListener("change", (e)=> {   
   const returnFiltrosCombinados = filtroCombinado(arrayDeEventosPasados, barraDeBusqueda);  
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsPast);  
-});
+}); */
 
 // funcion de filtro por checkbox
 function filtroCheckbox(arrayDeEventos){
@@ -75,10 +106,10 @@ function filtroCheckbox(arrayDeEventos){
 }); */
 
 // escuchador de eventos del input
-barraDeBusqueda.addEventListener("keyup", ()=> {
+/* barraDeBusqueda.addEventListener("keyup", ()=> {
   const returnFiltrosCombinados = filtroCombinado(arrayDeEventosPasados, barraDeBusqueda);
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsPast);
-});
+}); */
 
 // Funcion normalizar input
 function capitalizarPrimeraLetra(string) {
@@ -129,7 +160,7 @@ function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
     imprimirMensajeBusquedaNoCoincide(elementoHtml);
   }  
 }
-imprimirCardsEnHtml(arrayDeEventosPasados, cardsPast);
+/* imprimirCardsEnHtml(arrayDeEventosPasados, cardsPast); */
 
 // funcion que crea la estructura del mensaje
 function crearEstructuraMensaje(){

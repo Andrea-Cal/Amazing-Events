@@ -6,8 +6,7 @@ fetch("https://mindhub-xj03.onrender.com/api/amazing")
   // filtramos los eventos futuros
   let arrayDeEventosFuturos = arrayEventos.filter(objetoEvento => objetoData.currentDate <= objetoEvento.date);  
   // mostrar imagenes de eventos futuros en el carousel
-  mostrarImagenesEnCarousel(arrayDeEventosFuturos, carouselUpcoming);
-  // escuchador de eventos del boton de busqueda
+  mostrarImagenesEnCarousel(arrayDeEventosFuturos, carouselUpcoming);  
   // escuchador de eventos del input
   barraDeBusqueda.addEventListener("keyup", ()=> {
     const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);
@@ -25,7 +24,7 @@ fetch("https://mindhub-xj03.onrender.com/api/amazing")
   // llamado a la funcion que imprime las cards
   imprimirCardsEnHtml(arrayDeEventosFuturos, cardsUpcoming);
 })
-.catch( error => { console.log(error);})
+.catch( error => { console.log(error);});
 
 // contenedor carousel
 const carouselUpcoming = document.getElementById('carousel-upcoming');
