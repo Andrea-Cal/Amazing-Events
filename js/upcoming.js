@@ -1,3 +1,32 @@
+fetch("https://mindhub-xj03.onrender.com/api/amazing")
+.then( (response) => response.json())
+.then (data => {  
+  let objetoData = data;
+  let arrayEventos = data.events;
+  // filtramos los eventos futuros
+  let arrayDeEventosFuturos = arrayEventos.filter(objetoEvento => objetoData.currentDate <= objetoEvento.date);  
+  // mostrar imagenes de eventos futuros en el carousel
+  mostrarImagenesEnCarousel(arrayDeEventosFuturos, carouselUpcoming);
+  // escuchador de eventos del boton de busqueda
+  // escuchador de eventos del input
+  barraDeBusqueda.addEventListener("keyup", ()=> {
+    const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);
+  });
+  // filtra las categorias del array de eventos futuros sin repetir
+  const categoriasSinRepetir = [ ...new Set(arrayDeEventosFuturos.map(objeto => objeto.category))];
+  // llamado a la funcion que imprime las categorias
+  imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
+  // escuchador de eventos de los checkbox
+  checkboxCategorias.addEventListener("change", (e)=> { 
+    const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);  
+    imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);   
+  });
+  // llamado a la funcion que imprime las cards
+  imprimirCardsEnHtml(arrayDeEventosFuturos, cardsUpcoming);
+})
+.catch( error => { console.log(error);})
+
 // contenedor carousel
 const carouselUpcoming = document.getElementById('carousel-upcoming');
 // contenedor cards
@@ -9,29 +38,31 @@ const barraDeBusqueda = document.querySelector('input[type=search]');
 // boton del buscador
 /* const botonBusqueda = document.querySelector('button[type=submit]'); */
 
-// filtramos los eventos futuros
-let arrayDeEventosFuturos = data.events.filter(objetoEvento => data.currentDate <= objetoEvento.date);
+/* // filtramos los eventos futuros
+let arrayDeEventosFuturos = data.events.filter(objetoEvento => data.currentDate <= objetoEvento.date); */
 
 // mostrar imagenes de eventos futuros en el carousel
+function mostrarImagenesEnCarousel(array, elementoHtml){
 let templateCarousel = '';
-for (let i = 0; i < arrayDeEventosFuturos.length; i++) {  
+for (let i = 0; i < array.length; i++) {  
   if(i === 0){
     templateCarousel += `
     <div class="carousel-item active">
-      <img src="${arrayDeEventosFuturos[i].image}" class="d-block w-100" alt="${arrayDeEventosFuturos[i].name}">
+      <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
     </div>`
   }else{
     templateCarousel += `
     <div class="carousel-item">
-      <img src="${arrayDeEventosFuturos[i].image}" class="d-block w-100" alt="${arrayDeEventosFuturos[i].name}">
+      <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
     </div>`
   }    
 }
-carouselUpcoming.innerHTML = templateCarousel;
+elementoHtml.innerHTML = templateCarousel;
+}
 
 
-// filtra las categorias del array de eventos futuros sin repetir
-const categoriasSinRepetir = [ ...new Set(arrayDeEventosFuturos.map(objeto => objeto.category))];
+/* // filtra las categorias del array de eventos futuros sin repetir
+const categoriasSinRepetir = [ ...new Set(arrayDeEventosFuturos.map(objeto => objeto.category))]; */
 
 // funcion que crea la estructura HTML de los checkbox
 function crearEstructuraChecks(categoria){
@@ -48,13 +79,13 @@ function imprimirCategoriasEnHtml(arrayDeCategorias, elementoHtml){
   });
   elementoHtml.innerHTML = estructura;
 }
-imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias);
+/* imprimirCategoriasEnHtml(categoriasSinRepetir, checkboxCategorias); */
 
-// escuchador de eventos de los checkbox
+/* // escuchador de eventos de los checkbox
 checkboxCategorias.addEventListener("change", (e)=> { 
   const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);  
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);   
-});
+}); */
 
 // funcion de filtro por checkbox
 function filtroCheckbox(arrayDeEventos){
@@ -76,10 +107,10 @@ function filtroCheckbox(arrayDeEventos){
 }); */
 
 // escuchador de eventos del input
-barraDeBusqueda.addEventListener("keyup", ()=> {
+/* barraDeBusqueda.addEventListener("keyup", ()=> {
   const returnFiltrosCombinados = filtroCombinado(arrayDeEventosFuturos, barraDeBusqueda);
   imprimirCardsEnHtml(returnFiltrosCombinados, cardsUpcoming);
-});
+}); */
 
 // Funcion normalizar input
 function capitalizarPrimeraLetra(string) {
@@ -130,7 +161,7 @@ function imprimirCardsEnHtml(arrayDeEventos, elementoHtml){
     imprimirMensajeBusquedaNoCoincide(elementoHtml);
   }  
 }
-imprimirCardsEnHtml(arrayDeEventosFuturos, cardsUpcoming);
+/* imprimirCardsEnHtml(arrayDeEventosFuturos, cardsUpcoming); */
 
 function crearEstructuraMensaje(){
   let template = `

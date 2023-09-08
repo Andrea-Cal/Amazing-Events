@@ -1,8 +1,9 @@
 fetch("https://mindhub-xj03.onrender.com/api/amazing")
 .then( (response) => response.json())
 .then (data => {  
-  let objetoData = data;
   let arrayEventos = data.events;
+  // llamado a la funcion que muestra imagenes en el carousel
+  mostrarImagenesEnCarousel(arrayEventos, carouselHome);
   // filtra las categorias del array original sin repetir
   const categoriasSinRepetir = [ ...new Set(arrayEventos.map(objeto => objeto.category))];
   // llamado a la funcion que imprime las categorias
@@ -35,21 +36,23 @@ const barraDeBusqueda = document.querySelector('input[type=search]');
 /* const botonBusqueda = document.querySelector('button[type=submit]'); */
 
 // mostrar imagenes de eventos en el carousel
-let templateCarousel = '';
-for (let i = 0; i < data.events.length; i++) {
-  if(i === 0){
-    templateCarousel += `
-    <div class="carousel-item active">
-      <img src="${data.events[i].image}" class="d-block w-100" alt="${data.events[i].name}">
-    </div>`
-  }else{
-    templateCarousel += `
-    <div class="carousel-item">
-      <img src="${data.events[i].image}" class="d-block w-100" alt="${data.events[i].name}">
-    </div>`
-  }    
+function mostrarImagenesEnCarousel(array, elementoHtml){
+  let templateCarousel = '';
+  for (let i = 0; i < array.length; i++) {
+    if(i === 0){
+      templateCarousel += `
+      <div class="carousel-item active">
+        <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
+      </div>`
+    }else{
+      templateCarousel += `
+      <div class="carousel-item">
+        <img src="${array[i].image}" class="d-block w-100" alt="${array[i].name}">
+      </div>`
+    }    
+  }
+  elementoHtml.innerHTML = templateCarousel;
 }
-carouselHome.innerHTML = templateCarousel;
 
 // funcion que crea la estructura HTML de los checkbox
 function crearEstructuraChecks(categoria){
