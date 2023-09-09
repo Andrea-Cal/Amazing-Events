@@ -11,16 +11,19 @@ fetch("https://mindhub-xj03.onrender.com/api/amazing")
   // filtramos los eventos futuros
   let arrayDeEventosFuturos = arrayEventos.filter(objetoEvento => objetoData.currentDate <= objetoEvento.date);
   // evento con mayor porcentaje de asistencia - tabla 1.1
-  eventoConMayorAsistencia(arrayDeEventosPasados);
+  eventoConMayorAsistencia(arrayDeEventosPasados, tabla1Dato1);
   // evento con menor porcentaje de asistencia - tabla 1.2
-  eventoConMenorAsistencia(arrayDeEventosPasados);
+  eventoConMenorAsistencia(arrayDeEventosPasados, tabla1Dato2);
   // evento con mayor capacidad - tabla 1.3
-  eventoConMayorCapacidad(arrayEventos);
+ console.log( eventoConMayorCapacidad(arrayEventos, tabla1Dato3));
 })
 .catch( error => { console.log(error);})
 
 // contenedor carousel
 const carouselStats = document.getElementById('carousel-stats');
+const tabla1Dato1 = document.getElementById('td-tabla1-1');
+const tabla1Dato2 = document.getElementById('td-tabla1-2');
+const tabla1Dato3 = document.getElementById('td-tabla1-3');
 
 // mostrar imagenes de los primeros 5 eventos en el carousel
 function mostrarImagenesEnCarousel(array, elementoHtml){
@@ -41,33 +44,27 @@ function mostrarImagenesEnCarousel(array, elementoHtml){
   elementoHtml.innerHTML = templateCarousel;
 }
 
-
 // ------------------------------------------------------------
 // evento con mayor porcentaje de asistencia - tabla 1.1
-function eventoConMayorAsistencia(array){
-  let eventosOrdenadosDeMayorAMenor = array.sort((a,b) => b.assistance - a.assistance);
-  let mayor = eventosOrdenadosDeMayorAMenor[0];
-  return mayor;
+function eventoConMayorAsistencia(array, elementoHtml){
+  let eventosOrdenadosDeMayorAMenor = array.sort((a,b) => ((b.assistance*100)/b.capacity) - ((a.assistance*100)/a.capacity));
+  let mayor = eventosOrdenadosDeMayorAMenor[0];  
+  elementoHtml.innerHTML = `${mayor.name} : ${((mayor.assistance*100)/mayor.capacity).toFixed(2)} %`;
 }
-// insertar el dato en la celda correspondiente
-
-
 // ------------------------------------------------------------
 // evento con menor porcentaje de asistencia - tabla 1.2
-function eventoConMenorAsistencia(array){
-  let eventosOrdenadosDeMenorAMayor = array.sort((a,b) => a.assistance - b.assistance);
-  let menor = eventosOrdenadosDeMenorAMayor[0];
-  return menor;
+function eventoConMenorAsistencia(array, elementoHtml){
+  let eventosOrdenadosDeMayorAMenor = array.sort((a,b) => ((a.assistance*100)/a.capacity) - ((b.assistance*100)/b.capacity));
+  let menor = eventosOrdenadosDeMayorAMenor[0];  
+  elementoHtml.innerHTML = `${menor.name} : ${((menor.assistance*100)/menor.capacity).toFixed(2)} %`;
 }
-// insertar el dato en la celda correspondiente
-
-
 // ------------------------------------------------------------
 // evento con menor capacidad - tabla 1.3
-function eventoConMayorCapacidad(array){
+function eventoConMayorCapacidad(array, elementoHtml){
   let eventosOrdenadosDeMayorAMenor = array.sort((a,b) => b.capacity - a.capacity);
   let mayor = eventosOrdenadosDeMayorAMenor[0];
-  return mayor;
+  elementoHtml.innerHTML = `${mayor.name}: ${mayor.capacity}`;  
 }
-// insertar el dato en la celda correspondiente
 // ------------------------------------------------------------
+
+
