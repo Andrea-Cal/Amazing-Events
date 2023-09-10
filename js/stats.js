@@ -18,7 +18,8 @@ fetch("https://mindhub-xj03.onrender.com/api/amazing")
   eventoConMayorCapacidad(arrayEventos, tabla1Dato3);
   const categorias = [ ...new Set(arrayDeEventosFuturos.map(objeto => objeto.category))];
   // por cada categoria
-  generarDatos(categorias, arrayDeEventosFuturos, tabla2); 
+  generarDatosEstimados(categorias, arrayDeEventosFuturos, tabla2); 
+  generarDatos(categorias, arrayDeEventosPasados, tabla3); 
 })
 .catch( error => { console.log(error);})
 
@@ -30,6 +31,8 @@ const tabla1Dato2 = document.getElementById('td-tabla1-2');
 const tabla1Dato3 = document.getElementById('td-tabla1-3');
 // contenedor tabla 2
 const tabla2 = document.getElementById('tabla2');
+// contenedor tabla 3
+const tabla3 = document.getElementById('tabla3');
 
 // mostrar imagenes de los primeros 3 eventos en el carousel
 function mostrarImagenesEnCarousel(array, elementoHtml){
@@ -73,48 +76,69 @@ function eventoConMayorCapacidad(array, elementoHtml){
 }
 // ------------------------------------------------------------
 
-// crear estructura de tabla (tabla2)
-function crearEstructuraTabla2(categoria, recaudacion, porcentaje){
+// crear estructura de tabla (tabla2 y 3)
+function crearEstructuraTabla(categoria, recaudacion, porcentaje){
   let template = '';
   template += `
     <tr>
       <td class="col-4 border border-secondary-subtle">${categoria}</td>
       <td class="col-4 border border-secondary-subtle">${recaudacion}</td>
-      <td class="col-4 border border-secondary-subtle">${porcentaje}</td>
+      <td class="col-4 border border-secondary-subtle">${porcentaje}%</td>
     </tr>
   `
   return template;
 }
 
-// eventos futuros
-//let eventosFuturos = data.events.filter(objetoEvento => data.currentDate <= objetoEvento.date);
-// array de categorias de eventos futuros
-//const categorias = [ ...new Set(eventosFuturos.map(objeto => objeto.category))];
+// por cada categoria (Upcoming Events)
+function generarDatosEstimados(arrayDeCategorias, arrayObjetos, elementoHtml){
+  let estructura = "";
+  arrayDeCategorias.forEach(categoria => { 
+    let eventosFiltrados = arrayObjetos.filter(objetoEvento => objetoEvento.category.includes(categoria));
+    let recaudacion = calcularRecaudacionEstimadaPorCategoria(eventosFiltrados);
+    let porcentaje = calcularPorcentajeDeAsistenciaEstimada(eventosFiltrados);
+    estructura += crearEstructuraTabla(categoria, recaudacion, porcentaje);
+  });
+  elementoHtml.innerHTML = estructura;
+}
 
-// por cada categoria 
+// funcion que calcula el total de ingresos estimados por categoria (Upcoming Events)
+function calcularRecaudacionEstimadaPorCategoria(array){
+  let recaudacion = 0;
+  array.forEach(element => { recaudacion += (element.estimate*element.price) });    
+  return recaudacion;
+}
+
+// funcion que calcula el porcentaje de asistencia estimada x categoria (Upcoming Events)
+function calcularPorcentajeDeAsistenciaEstimada(array){  
+  let suma = 0;
+  array.forEach(element => { suma += ((element.estimate*100)/element.capacity) });  
+  let porcentajeAsistencia = (suma/array.length).toFixed(2);  
+  return porcentajeAsistencia;
+}
+// -----------------------------------------------------------------
+// por cada categoria (Past Events)
 function generarDatos(arrayDeCategorias, arrayObjetos, elementoHtml){
   let estructura = "";
   arrayDeCategorias.forEach(categoria => { 
     let eventosFiltrados = arrayObjetos.filter(objetoEvento => objetoEvento.category.includes(categoria));
     let recaudacion = calcularRecaudacionPorCategoria(eventosFiltrados);
     let porcentaje = calcularPorcentajeDeAsistencia(eventosFiltrados);
-    estructura += crearEstructuraTabla2(categoria, recaudacion, porcentaje);
+    estructura += crearEstructuraTabla(categoria, recaudacion, porcentaje);
   });
   elementoHtml.innerHTML = estructura;
 }
 
-// funcion que calcula el total de ingresos por categoria
+// funcion que calcula el total de ingresos por categoria (Past Events)
 function calcularRecaudacionPorCategoria(array){
   let recaudacion = 0;
-  array.forEach(element => { recaudacion += (element.estimate*element.price) });    
+  array.forEach(element => { recaudacion += (element.assistance*element.price) });    
   return recaudacion;
 }
 
-// funcion que calcula el porcentaje de asistencia estimada de todos los eventos de una misma categoria
+// funcion que calcula el porcentaje de asistencia x categoria (Past Events)
 function calcularPorcentajeDeAsistencia(array){  
   let suma = 0;
-  array.forEach(element => { suma += ((element.estimate*100)/element.capacity) });  
+  array.forEach(element => { suma += ((element.assistance*100)/element.capacity) });  
   let porcentajeAsistencia = (suma/array.length).toFixed(2);  
   return porcentajeAsistencia;
 }
-
