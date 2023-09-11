@@ -1,7 +1,6 @@
 fetch("https://mindhub-xj03.onrender.com/api/amazing")
 .then( (response) => response.json())
 .then (data => {  
-  let objetoData = data;
   let arrayEventos = data.events;
   const eventoAMostrar = arrayEventos.find(objetoEvento => objetoEvento._id == idBuscado);
   imprimirDetail(eventoAMostrar, contenedorDetails);
@@ -21,7 +20,7 @@ function crearEstructuraDetail(objetoEvento){
   template = `
   <div class="row g-0" >
     <div class="col-md-6">
-      <img src="${objetoEvento.image}" class="img-fluid rounded-start object-fit-cover w-100 h-100" alt="${objetoEvento.name}">
+      <img src="${objetoEvento.image}" class="img-fluid rounded object-fit-cover w-100 h-100" alt="${objetoEvento.name}">
     </div>
     <div class="col-md-6">
       <div class="card-body">
@@ -42,4 +41,3 @@ function imprimirDetail(objetoEvento, elementoHtml){
   let estructura = crearEstructuraDetail(objetoEvento);
   elementoHtml.innerHTML = estructura;
 }
-/* imprimirDetail(eventoAMostrar, contenedorDetails); */

@@ -82,7 +82,7 @@ function crearEstructuraTabla(categoria, recaudacion, porcentaje){
   template += `
     <tr>
       <td class="col-4 border border-secondary-subtle">${categoria}</td>
-      <td class="col-4 border border-secondary-subtle">${recaudacion}</td>
+      <td class="col-4 border border-secondary-subtle">$ ${recaudacion}</td>
       <td class="col-4 border border-secondary-subtle">${porcentaje}%</td>
     </tr>
   `

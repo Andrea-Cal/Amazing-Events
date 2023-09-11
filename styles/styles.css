@@ -14,7 +14,10 @@ header{
 
 /* main */
 main{
-  height: 80%;
+  height: 80%;  
+}
+#main-stats, #main-contact, #main-details{
+  margin-bottom: 120px;
 }
 .carousel, .carousel-inner, .carousel-item{
   height: 400px;
@@ -53,12 +56,6 @@ main{
   --bs-btn-hover-border-color: rgb(230, 46, 76);  
   --bs-btn-active-bg: rgb(233, 78, 6);  
   --bs-btn-active-border-color: rgb(230, 46, 76);
-}
-#formulario{
-  height: 500px;
-}
-#tablas{
-  height: 800px;
 }
 #mensaje-error{
   background-color: rgb(255, 167, 126);
